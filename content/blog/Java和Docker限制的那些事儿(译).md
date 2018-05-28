@@ -5,7 +5,7 @@ draft: false
 author: "kelvinji2009"
 authorlink: "https://kelvinji2009.github.io"
 banner: "https://ws1.sinaimg.cn/large/00704eQkgy1frjbqc9faoj30rs0kuwnv.jpg"
-summary: "很多运行在JAVA虚拟机(JVM)中的应用，包括数据服务如Apache Spark和Kafka以及传统企业应用，都运行在容器中。最近，运行在容器里的JVM出现了由于内存和CPU资源限制和使用率导致性能损失问题。这是因为JAVA意识不到自己运行在容器中。随着JAVA 10的发布，JVM终于可以通过设置cgroup来实现这些约束。"
+summary: "Java和Docker不是天然的朋友。 Docker可以设置内存和CPU限制，而Java不能自动检测到。使用Java的Xmx标识（繁琐/重复）或新的实验性JVM标识，我们可以解决这个问题。"
 tags: ["docker","java10"]
 categories: ["docker"]
 ---
