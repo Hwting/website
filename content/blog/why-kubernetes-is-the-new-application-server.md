@@ -45,6 +45,7 @@ Java生态系统提供了一种标准格式，用于分发属于同一应用程�
 ![Screenshot-2018-05-18-21.20.31.png](https://developers.redhat.com/blog/wp-content/uploads/2018/05/Screenshot-2018-05-18-21.20.31.png)
 
 ### 1-服务发现
+
 服务发现是确定如何连接到某个服务的过程。 要获得容器和云原生应用程序的诸多好处，您需要从容器镜像中隔离配置，以便在所有环境中使用相同的容器镜像。 应用程序的外部化配置是`12-factor`应用程序的关键原则之一。 服务发现是从运行时环境获取配置信息的方法之一，而不是在应用程序中进行硬编码。 Kubernetes提供开箱即用的服务发现。 Kubernetes还提供ConfigMaps和Secrets以从应用程序容器中隔离配置。 Secerets解决了当您需要存储凭据以连接到运行时环境中的数据库等服务时出现的一些挑战。
 
 使用Kubernetes，不需要使用外部服务器或框架。 尽管您可以通过Kubernetes YAML文件管理每个运行时环境的环境设置，但红帽OpenShift提供了一个GUI和CLI，可以让DevOps团队更容易管理。
@@ -66,6 +67,7 @@ Kubernetes通过使用ReplicaSets（以前称为Replication Controllers）来解
 由于您的Kubernetes集群运行着容器化应用程序的多个副本，因此集中这些日志以便可以在一个位置查看它们变得非常重要。 此外，为了利用自动缩放（以及其他云原生功能）等优势，您的容器必须是不可变的。 所以你需要将你的日志存储在你的容器之外，这样它们将在整个运行期间保持不变。 OpenShift允许您部署EFK堆栈以聚合来自主机和应用程序的日志，无论它们来自多个容器，还是来自已经删除的容器。
 
 EFK堆栈由以下部分组成：
+
 * Elasticsearch（ES），一个存储所有日志的对象存储系统
 * Fluentd，从节点收集日志并将其提供给Elasticsearch
 * Kibana，Elasticsearch的Web用户界面
