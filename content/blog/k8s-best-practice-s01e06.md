@@ -13,7 +13,7 @@ categories: ["kubernetes"]
 # kubernetes最佳实践S01E06：映射外部服务
 
 * 作者：Sandeep Dinesh, Google Developer Advocate
-* 日期：2018/05/18
+* 日期：2018/05/25
 
 [原文](https://cloudplatform.googleblog.com/2018/05/Kubernetes-best-practices-mapping-external-services.html)
 
