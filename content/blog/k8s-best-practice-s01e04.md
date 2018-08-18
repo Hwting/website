@@ -21,17 +21,17 @@ categories: ["kubernetes"]
 
 当Kubernetes调度Pod时，容器是否有足够的资源来实际运行是很重要的。 如果大型应用程序被调度到资源有限的节点上，则节点可能会耗尽内存或CPU资源，并且可能会停止工作！
 
-应用程序有可能占用比其应占有的资源更多的资源。 这可能是因为一个团队调整为更多的副本，而不是人工减少延迟（嘿，调整更多副本比让你的代码更高效容易得多！），或者一个错误的配置修改使CPU占用100％，进而导致程序失去控制。 无论问题是由糟糕的开发人员，或者糟糕的代码，亦或是运气不好引起的，重要的是你能掌控着你自己。
+应用程序有可能占用比其应占有的资源更多的资源。 这可能是因为一个团队调整为更多的副本，而不是人工减少延迟（嘿，调整更多副本比让你的代码更高效容易得多！），或者一个错误的配置修改使CPU占用100％，进而导致程序失去控制。 无论问题是由糟糕的开发人员，或者糟糕的代码，亦或是运气不好引起的，重要的是你能掌控你自己。
 
 在本期Kubernetes最佳实践中，让我们来看看如何使用资源请求和限制来解决这些问题。
 
 ## 请求和限制
 
-请求和限制是Kubernetes用于控制CPU和内存等资源的机制。 请求是保证容器得到的。 如果容器请求资源，Kubernetes将仅将其调度到可以为其提供该资源的节点上。 另一方面，限制确保容器永远不会超过某个值。 容器只允许达到限制资源值，然后无法获得更多资源。
+请求和限制是Kubernetes用于控制CPU和内存等资源的机制。 请求是保证容器能够得到的资源。 如果容器请求资源，Kubernetes会将其调度到可以为其提供该资源的节点上。 另一方面，限制则是确保容器的资源请求永远不会超过某个值。 容器只允许达到限制设定的资源值，无法获得更多资源。
 
 重要的是要记住，限制永远不会低于请求。 如果你试试这个，Kubernetes将抛出一个错误，不会让你运行容器。
 
-请求和限制基于单个容器。 虽然Pod通常包含一个容器，但通常也会看到Pods包含多个容器。 Pod中的每个容器都有自己的限制和请求，但由于Pod总是被认为是一个组，因此您需要将每个容器的限制和请求加在一起以获取Pod的聚合值。
+请求和限制基于单个容器。 虽然Pod通常包含一个容器，但通常也会看到Pods包含多个容器。 Pod中的每个容器都有自己的限制和请求，但由于Pod总是被认为是一个组，因此您需要将组内每个容器的限制和请求加在一起以获取Pod的聚合值。
 
 要控制容器可以拥有的请求和限制，可以在Container级别和Namespace级别设置配额。 如果您想了解有关命名空间的更多信息，请参阅我们博客系列中的上一篇文章！
 
@@ -39,31 +39,31 @@ categories: ["kubernetes"]
 
 ## 容器设置
 
-有两种类型的资源：CPU和内存。 Kubernetes调度程序使用这些来确定运行pod的位置。
+有两种类型的资源：CPU和内存。 Kubernetes调度程序使用这些来确定运行pod的位置(即哪个节点)。
 
-[请点击这里获取这些资源的文档。](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/)
+[请点击这里获取这些内容介绍的相关文档](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/)
 
-如果您在`Google Kubernetes Engine`中运行，则默认名称空间已经为您设置了一些请求和限制。
+如果您是在`Google Kubernetes Engine`中运行，则默认名称空间已经为您设置了一些请求和限制。
 
 ![google-namespace-requests-limits.png](https://4.bp.blogspot.com/-x4ek0a8eNio/WvS5OlYKMsI/AAAAAAAAFnU/P7kUguuL0tYLBnAsU_wXCc2BWFhu0MzowCEwYBhgL/s1600/google-namespace-requests-limits.png)
 
-这些默认设置适用于“Hello World”，更改它们以适合您的应用非常重要。
+这些默认设置仅仅适用于`Hello World`应用，更改成适合您的应用非常重要。
 
 资源的典型`Pod spec`可能看起来像这样。 这个pod有两个容器：
 
 ![gcp-container-pod-spec.png](https://1.bp.blogspot.com/-hkQeBSBm-VE/WvS5a593XJI/AAAAAAAAFnY/mNjePyLiLJYTYrHcU_D8rOVrpfiSNYTuwCEwYBhgL/s400/gcp-container-pod-spec.png)
 
-Pod中的每个容器都可以设置自己的请求和限制，这些都是附加的。 因此在上面的示例中，Pod的总请求为500 mCPU，内存为128 MiB，总内存为1 CPU和256MiB。
+Pod中的每个容器都可以设置自己的请求和限制，这些都是附加的设置。 因此在上面的示例中，Pod的总请求为`500 mCPU`，内存为`128 MiB`，总需求为`1 CPU`和`256MiB`。
 
 ### CPU
 
-CPU资源以毫秒定义。 如果您的容器需要运行两个完整的核心，那么您将设置值“2000m”。 如果您的容器只需要1/4的核心，那么您将设置一个“250m”的值。
+CPU资源以毫秒定义。 如果您的容器需要运行两个完整的核心，那么您将设置值`2000m`。 如果您的容器只需要`1/4`的核心，那么您将设置一个`250m`的值。
 
 关于CPU请求要记住的一件事是，如果您输入的值大于最大节点的核心数，则永远不会调度您的pod。 假设您有一个需要四个核心的Pod，但您的Kubernetes群集由双核VM组成 - 您的pod将永远不会被调度！
 
-除非您的应用程序专门用于利用多个核心（科学计算和某些数据库），否则通常最好将CPU请求保持在“1”或更低，并运行更多副本以扩展它。 这为系统提供了更大的灵活性和可靠性。
+除非您的应用程序专门用于利用多个核心（科学计算和某些数据库），否则通常最好将CPU请求保持在`1`或更低，并运行更多副本以扩展它。 这为系统提供了更大的灵活性和可靠性。
 
-就CPU限制而言，事情变得有趣。 CPU被认为是“可压缩”资源。 如果您的应用程序开始达到您的CPU限制，Kubernetes会开始限制您的容器。 这意味着CPU将受到人为限制，使您的应用程序性能可能更差！ 但是，它不会被终止或退出。 您可以使用`liveness`探针的运行状况检查来确保性能未受影响。
+就CPU限制而言，事情其实很有趣。 CPU被认为是`可压缩`资源。 如果您的应用程序开始达到您的CPU限制，Kubernetes会开始限制您的容器。 这意味着CPU将受到人为限制，使您的应用程序性能可能更差！ 但是，它不会被终止或退出。 您可以使用`liveness`探针的运行状况检查来确保性能未受影响。
 
 ### 内存
 
@@ -71,21 +71,21 @@ CPU资源以毫秒定义。 如果您的容器需要运行两个完整的核心�
 
 和CPU一样，如果您输入的内存请求大于节点上的内存量，则你的pod永远不会被调度。
 
-与CPU资源不同，内存无法压缩。 因为没有办法限制内存使用量，如果容器超过其内存限制，它将被终止。 如果您的pod由Deployment，StatefulSet，DaemonSet或其他类型的控制器管理，则控制器会轮转替换。
+与CPU资源不同，内存无法压缩。 因为没有办法限制内存使用量，如果容器超过其内存限制，它将被终止。 如果您的pod由`Deployment`，`StatefulSet`，`DaemonSet`或其他类型的控制器管理，则控制器会轮转替换。
 
 ### 节点
 
-请务必记住，您无法设置大于节点提供的资源的请求。 例如，如果您拥有一个双核群集，具有2.5核心请求的Pod则永远不会被调度到这里！ 您可以在[此处](https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-architecture#node_allocatable_resources)找到Kubernetes Engine VM相关的文档资源。
+请务必记住，您无法设置大于节点提供的资源的请求。 例如，如果您拥有一个双核群集，具有`2.5`核心请求的Pod则永远不会被调度到这里！ 您可以在[此处](https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-architecture#node_allocatable_resources)找到`Kubernetes Engine VM`相关的文档资源。
 
 ## 命名空间设置
 
-在一个理想的世界里，Kubernetes的容器设置足以照顾好一切，但世界是一个黑暗而可怕的地方。 人们很容易忘记设置资源，或者流氓团队可以设置非常高的请求和限制，并占用超过他们公平份额的群集。
+在一个理想的世界里，Kubernetes的容器设置足以照顾好一切，但这个世界是一个黑暗而可怕的地方。 人们很容易忘记设置资源限制，或者流氓团队可以设置非常高的请求和限制，并占用超过他们公平份额的群集。
 
-要防止出现这些情况，可以在命名空间级别设置ResourceQuotas和LimitRanges。
+要防止出现这些情况，可以在命名空间级别设置`ResourceQuotas`和`LimitRanges`。
 
 ### ResourceQuotas
 
-创建命名空间后，可以使用ResourceQuotas将其锁定。 ResourceQuotas非常强大，但我们只看看如何使用它们来限制CPU和内存资源的使用。
+创建命名空间后，可以使用`ResourceQuotas`将其锁定。 ResourceQuotas非常强大，但我们只看看如何使用它们来限制CPU和内存资源的使用。
 
 资源配额可能如下所示：
 
@@ -93,49 +93,49 @@ CPU资源以毫秒定义。 如果您的容器需要运行两个完整的核心�
 
 看一下这个例子，你可以看到有四个部分。 配置每个部分都是可选的。
 
-requests.cpu是命名空间中所有容器的最大组合CPU请求（以毫秒为单位）。 在上面的示例中，您可以拥有50个具有10m请求的容器，5个具有100m请求的容器，甚至一个具有500m请求的容器。 只要命名空间中请求的总CPU小于500m！
+> `requests.cpu` 是命名空间中所有容器的最大组合CPU请求（以毫秒为单位）。 在上面的示例中，您可以拥有50个具有`10m`请求的容器，5个具有`100m`请求的容器，甚至一个具有`500m`请求的容器。 只要命名空间中请求的总CPU和小于`500m`！
 
-requests.memory是命名空间中所有容器的最大组合内存请求。 在上面的示例中，您可以拥有50个具有2MiB请求的容器，5个具有20MiB CPU请求的容器，甚至是具有100MiB请求的单个容器。 只要命名空间中请求的总内存小于100MiB！
+> `requests.memory`是命名空间中所有容器的最大组合内存请求。 在上面的示例中，您可以拥有50个具有`2MiB`请求的容器，5个具有`20MiB`请求的容器，甚至是具有`100MiB`请求的单个容器。 只要命名空间中请求的总内存小于`100MiB`！
 
-limits.cpu是命名空间中所有容器的最大组合CPU限制。 它就像requests.cpu，但是这里指的是限制。
+> `limits.cpu`是命名空间中所有容器的最大组合CPU限制。 它就像`requests.cpu`，但是这里指的是限制。
 
-limits.memory是命名空间中所有容器的最大组合内存限制。 它就像requests.memory，但是同样地这里指的是极限。
+> `limits.memory`是命名空间中所有容器的最大组合内存限制。 它就像`requests.memory`，但是同样地这里指的是限制。
 
-如果您使用的是生产和开发命名空间（与每个团队或服务的命名空间不同），则常见的模式是在生产命名空间上没有配额，在开发命名空间上没有严格的配额。 这使得生产能够在流量激增的情况下获取所需的所有资源。
+如果您使用的是生产和开发命名空间（与每个团队或服务的命名空间不同），则常见的模式是在生产命名空间上没有配额，在开发命名空间上则是非严格的配额。 这使得生产能够在流量激增的情况下获取所需的所有资源。
 
 ### LimitRange
 
-您还可以在命名空间中创建LimitRange。 与名称空间作为整体查看的配额不同，LimitRange适用于单个容器。 这有助于防止人们在命名空间内创建超小容器或超大容器。
+您还可以在命名空间中创建`LimitRange`。 与名称空间作为整体查看的配额不同，`LimitRange`适用于单个容器。 这有助于防止人们在命名空间内创建超小容器或超大容器。
 
-LimitRange可能如下所示：
+`LimitRange`可能如下所示：
 
 ![gcp-limit-range.png](https://4.bp.blogspot.com/-7rDxM4FRyBM/WvS6cjtCVxI/AAAAAAAAFns/xj7vbf0mWqA9OGpb86lKjzt9j4o2-3FBQCEwYBhgL/s400/gcp-limit-range.png)
 
 看一下这个例子，你可以看到有四个部分。 同样，设置每个部分都是可选的。
 
-`default section`设置容器中容器的默认限制。 如果在limitRange中设置这些值，则任何未明确设置这些值的容器都将被分配默认值。
+> `default section`设置容器中容器的默认限制。 如果在`limitRange`中设置这些值，则任何未明确设置这些值的容器都将被分配默认值。
 
-`defaultRequest section`设置pod中容器的默认请求。 如果在limitRange中设置这些值，则任何未明确设置这些值的容器都将被分配默认值。
+> `defaultRequest section`设置pod中容器的默认请求。 如果在`limitRange`中设置这些值，则任何未明确设置这些值的容器都将被分配默认值。
 
-`max section`将设置Pod中容器可以设置的最大限制。 默认部分不能高于此值。 同样，在容器上设置的限制不能高于此值。 请务必注意，如果设置了此值且默认部分未设置，则任何未自行显式设置这些值的容器都将被指定为最大值作为限制。
+> `max section`将设置Pod中容器可以设置的最大限制。 默认部分不能高于此值。 同样，在容器上设置的限制不能高于此值。 请务必注意，如果设置了此值且默认部分未设置，则任何未自行显式设置这些值的容器都将被指定为最大值作为限制。
 
-`min section`设置Pod中容器可以设置的最小请求。 defaultRequest部分不能低于此值。 同样，在容器上设置的请求也不能低于此值。 请务必注意，如果设置了此值且defaultRequest部分未设置，则min值也将成为defaultRequest值。
+> `min section`设置Pod中容器可以设置的最小请求。 `defaultRequest`部分不能低于此值。 同样，在容器上设置的请求也不能低于此值。 请务必注意，如果设置了此值且`defaultRequest`部分未设置，则min值也将成为`defaultRequest`值。
 
 ## Kubernetes Pod的生命周期
 
 Kubernetes调度程序使用这些资源请求来运行您的工作负载。 了解其工作原理非常重要，这样您才能正确调整容器。
 
-假设您想要在群集上运行Pod。 假设Pod Spec有效，Kubernetes调度程序将使用round-robin负载平衡来选择节点来运行您的工作负载。
+假设您想要在群集上运行Pod。 假设`Pod Spec`有效，Kubernetes调度程序将使用`round-robin`负载平衡来选择节点来运行您的工作负载。
 
-注意：例外情况是，如果使用nodeSelector或类似机制强制Kubernetes在特定位置安排Pod。 使用nodeSelector时仍会发生资源检查，但Kubernetes只会检查具有所需标签的节点。
+**注意**：例外情况是，如果使用`nodeSelector`或类似机制强制Kubernetes在特定位置安排Pod。 使用`nodeSelector`时仍会发生资源检查，但Kubernetes只会检查具有所需标签的节点。
 
 然后Kubernetes检查节点是否有足够的资源来满足Pod容器上的资源请求。 如果没有，则移动到下一个节点。
 
-如果系统中的所有节点都没有剩余资源来填充请求，那么Pod将进入“挂起”状态。 通过使用节点自动缩放器等Kubernetes Engine功能，Kubernetes Engine可以自动检测此状态并自动创建更多节点。 如果有多余的容量，`autoscaler`也可以减少和删除节点，以节省您的钱！
+如果系统中的所有节点都没有剩余资源来填充请求，那么Pod将进入“挂起”状态。 通过使用节点自动缩放器([Node Autoscaler](https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler))等Kubernetes Engine功能，Kubernetes Engine可以自动检测此状态并自动创建更多节点。 如果有多余的容量，自动缩放器(`autoscaler`)也可以减少和删除节点，以节省您的钱！
 
 但限制怎么处理？ 如您所知，限制必须高于请求。 如果您有一个节点，其中所有容器限制的总和实际上高于机器上可用的资源，该怎么办？
 
-在这一点上，Kubernetes进入了一种被称为“过度使用状态”的东西。这是事情变得有趣的地方。 由于CPU可以被压缩，因此Kubernetes将确保您的容器获得他们请求的CPU并且将限制其余部分。 内存无法压缩，因此如果Node耗尽内存，Kubernetes需要开始决定终止哪些容器。
+在这一点上，Kubernetes进入了一种被称为“过度使用状态”([overcommitted state](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/node/resource-qos.md#qos-classes))的东西。这是事情变得有趣的地方。 由于CPU可以被压缩，因此Kubernetes将确保您的容器获得他们请求的CPU并且将限制其余部分。 内存无法压缩，因此如果Node耗尽内存，Kubernetes需要开始决定终止哪些容器。
 
 让我们想象一下我们有一台机器内存不足的情况。 Kubernetes会做什么？
 
