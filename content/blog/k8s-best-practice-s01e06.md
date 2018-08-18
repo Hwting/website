@@ -1,7 +1,7 @@
 ---
 title: "K8s Best Practice S01e06"
 date: 2018-08-18T19:09:26+08:00
-draft: true
+draft: false
 banner: "https://cdn-images-1.medium.com/max/1600/0*BXOE0v4yChNM2i9s.jpg"
 author: "kelvinji2009"
 authorlink: "https://kelvinji2009.github.io"
