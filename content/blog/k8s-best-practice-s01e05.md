@@ -1,5 +1,5 @@
 ---
-title: "kubernetes最佳实践S01E04：优雅地终止"
+title: "kubernetes最佳实践S01E05：优雅地终止"
 date: 2018-08-18T18:39:01+08:00
 draft: false
 banner: "https://cdn-images-1.medium.com/max/1600/0*CkNz3GlnZGhyycfY.jpg"
@@ -10,7 +10,7 @@ tags: ["kubernetes"]
 categories: ["kubernetes"]
 ---
 
-# kubernetes最佳实践S01E04：优雅地终止
+# kubernetes最佳实践S01E05：优雅地终止
 
 * 作者：Sandeep Dinesh, Google Developer Advocate
 * 日期：2018/05/18
