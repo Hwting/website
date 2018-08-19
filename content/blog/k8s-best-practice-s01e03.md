@@ -1,5 +1,5 @@
 ---
-title: "K8s Best Practice S01e03"
+title: "kubernetes最佳实践S01E03：设置带readiness和liveness探针的健康检查"
 date: 2018-08-12T23:02:08+08:00
 draft: false
 banner: "https://cdn-images-1.medium.com/max/1600/0*rtpkUtv66zDCEUUX.jpg"
