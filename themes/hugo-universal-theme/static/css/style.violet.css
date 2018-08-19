@@ -1632,7 +1632,7 @@ fieldset[disabled] .btn-template-primary.active {
 }
 .box-image-text .content h3,
 .box-image-text .content h4 {
-  text-transform: uppercase;
+  text-transform: none;
   line-height: 1.5;
   color: #555555;
   font-weight: 800;
