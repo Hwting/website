@@ -1,5 +1,5 @@
 ---
-title: "K8s Best Practice S01e06"
+title: "K8s Best Practice S01e06：映射外部服务"
 date: 2018-08-18T19:09:26+08:00
 draft: false
 banner: "https://cdn-images-1.medium.com/max/1600/0*BXOE0v4yChNM2i9s.jpg"
