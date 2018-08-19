@@ -1,14 +1,14 @@
 ---
-baseurl: "https://servicemesher.github.io/"
+baseurl: "https://kelvinji2009.github.io/"
 DefaultContentLanguage: "zh"
 hasCJKLanguage: true
 languageCode: "zh"
-title: "ServiceMesher"
+title: "kelvinji2009"
 theme: "hugo-universal"
 metaDataFormat: "yaml"
-subtitle: "Service Mesh爱好者"
+subtitle: "kelvinji2009"
 dateFormat: "2006-01-02"
-description: "ServiceMesher"
+description: "kelvinji2009 blog"
 algolia:
   index: ""
   key: ""
