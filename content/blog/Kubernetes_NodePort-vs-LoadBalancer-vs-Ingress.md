@@ -1,5 +1,5 @@
 ---
-title: "Kubernetes_NodePort vs LoadBalancer vs Ingress"
+title: "Kubernetes NodePort vs LoadBalancer vs Ingress"
 date: 2018-08-26T14:05:00+08:00
 draft: false
 banner: "https://cdn-images-1.medium.com/max/1600/1*KIVa4hUVZxg-8Ncabo8pdg.png"
