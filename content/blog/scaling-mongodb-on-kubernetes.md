@@ -5,7 +5,7 @@ draft: false
 banner: "https://cdn-images-1.medium.com/max/1600/1*JR_8ybLEuRw6ZnwKtcCMPA.png"
 author: "kelvinji2009"
 authorlink: "https://kelvinji2009.github.io"
-summary: "文章摘要"
+summary: "Kubernetes 主要用于无状态应用程序。 但是，在 1.3 版本中引入了 PetSets，之后它们演变为 StatefulSets。 官方文档将 StatefulSets 描述为“StatefulSets 旨在与有状态应用程序和分布式系统一起使用”。"
 tags: ["Kubernetes", "MongoDB", "StatefulSets"]
 categories: ["Kubernetes"]
 ---
