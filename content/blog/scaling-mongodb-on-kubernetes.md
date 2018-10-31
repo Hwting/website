@@ -1,7 +1,7 @@
 ---
 title: "Scaling Mongodb on Kubernetes"
 date: 2018-10-31T11:54:52+08:00
-draft: true
+draft: false
 banner: "https://cdn-images-1.medium.com/max/1600/1*JR_8ybLEuRw6ZnwKtcCMPA.png"
 author: "kelvinji2009"
 authorlink: "https://kelvinji2009.github.io"
@@ -314,8 +314,6 @@ mongo-0/1/2 的外部 IP 是新创建的 TCP 负载均衡器的 IP。 这些是�
 也可以使用诸如 Nginx 之类的 Ingress Controller 来定向到 Mongo StatefulSets 的流量。 确保 ingress 服务是内部服务，而不是通过 PublicIP 公开。 Ingress 对象的配置看起来像这样：
 
 ```yaml
-
----
 spec:
   rules:
     - host: mongo.example.com
