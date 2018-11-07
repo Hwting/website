@@ -86,7 +86,7 @@ Pod 能够容纳多个容器，但如果可能的话，应该限制为一个或�
 
 为避免这些，请将 pod 限制为少数几个容器。 如果您遇到过“sidecar”这个词，那就意味着辅助容器。 所以有主进程容器，可能有一些辅助容器。
 
-### Depoloyment
+### Deployment
 
 ![07751442-deployment-2.png](https://www.level-up.one/wp-content/uploads/2018/07/07751442-deployment-2.png)
 
