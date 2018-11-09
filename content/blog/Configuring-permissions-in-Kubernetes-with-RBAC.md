@@ -5,7 +5,7 @@ draft: false
 banner: "https://cdn-images-1.medium.com/max/1600/1*nywxB5PdmQq8zmB_TnMTbQ.jpeg"
 author: "kelvinji2009"
 authorlink: "https://kelvinji2009.github.io"
-summary: "文章摘要"
+summary: "在本文中，我们将重点关注 Kubernetes 中 IAM 的授权方面，更具体地说，关于如何使用基于角色的访问控制模型确保用户对相应的资源具有正确的权限。"
 tags: ["Kubernetes", "RBAC"]
 categories: ["Kubernetes"]
 ---
