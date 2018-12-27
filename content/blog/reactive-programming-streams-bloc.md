@@ -2,7 +2,7 @@
 title: "响应式编程：从Streams到BLoC"
 date: 2018-12-27T12:17:51+08:00
 draft: false
-banner: "https://ws1.sinaimg.cn/large/00704eQkgy1frk001fkixj30rs0ku4qp.jpg"
+banner: "https://www.didierboelens.com/images/streams_bloc.png"
 author: "kelvinji2009"
 authorlink: "https://kelvinji2009.github.io"
 summary: "这篇文章主要介绍Streams，BLoC和Reactive Programming的概念、理论和实践范例。"
